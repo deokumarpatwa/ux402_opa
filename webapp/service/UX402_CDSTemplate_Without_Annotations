@@ -1,0 +1,25 @@
+@AbapCatalog.sqlViewName: 'ZUX402FLUI##' 
+@AbapCatalog.compiler.compareFilter: true 
+@AccessControl.authorizationCheck: #CHECK 
+@EndUserText.label: 'View with UI-Annotation' 
+@OData.publish: true   
+ 
+
+define view ZUX402FLIGHTUI##  
+	as select from spfli              
+	association [1..1] to scarr as spfli_scarr                
+	on $projection.carrid = spfli_scarr.carrid      
+{              
+	
+  	key spfli.carrid,                
+	
+	key spfli_scarr.carrname, 
+	
+	key spfli.connid, 
+	
+	spfli.cityfrom,  
+	
+	spfli.cityto,                     
+	
+} 
+

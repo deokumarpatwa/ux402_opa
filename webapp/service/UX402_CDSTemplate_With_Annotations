@@ -1,0 +1,43 @@
+@AbapCatalog.sqlViewName: 'ZUX402FLUI##' 
+@AbapCatalog.compiler.compareFilter: true 
+@AccessControl.authorizationCheck: #CHECK 
+@EndUserText.label: 'View with UI-Annotation' 
+@OData.publish: true   
+@UI.headerInfo:{     
+	typeName: 'Flight',     
+	typeNamePlural: 'Flights',
+   title: {value: 'carrname'},
+   imageUrl: 'imgUrl',
+   description: {value: 'connid'} }   
+
+define view ZUX402FLIGHTUI##  
+	as select from spfli              
+	association [1..1] to scarr as spfli_scarr                
+	on $projection.carrid = spfli_scarr.carrid      
+{              
+	@UI.facet: [{         
+		purpose: #HEADER,
+	   type: #FIELDGROUP_REFERENCE,        
+		targetQualifier: 'FlightData',        
+		position: 10        
+	}]
+
+   @UI.lineItem.position:10        
+	key spfli.carrid,                
+	@UI.selectionField.position:10         
+	@UI.lineItem.position:20        
+	key spfli_scarr.carrname, 
+	@UI.fieldGroup:[{qualifier:'FligthData',groupLabel:'FlightData',position:10}]        
+	@UI.lineItem.position:30        
+	key spfli.connid, 
+	@UI.fieldGroup:[{qualifier:'FligthData',groupLabel:'FlightData',position:20}]        
+	@UI.selectionField.position:20        
+	@UI.lineItem.position:40        
+	spfli.cityfrom,  
+	@UI.fieldGroup:[{qualifier:'FligthData',groupLabel:'FlightData',position:30}]        
+	@UI.selectionField.position:30        
+	@UI.lineItem.position:50            
+	spfli.cityto,                     
+	concat(concat('/img/',spfli.carrid),'.png') as imgUrl     
+} 
+

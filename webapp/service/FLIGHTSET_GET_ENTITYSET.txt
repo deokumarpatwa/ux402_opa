@@ -1,0 +1,6 @@
+  method FLIGHTSET_GET_ENTITYSET.
+    SELECT * FROM sflight INTO TABLE @DATA(lt_sflight).
+      LOOP AT lt_sflight INTO DATA(ls_sflight).
+        APPEND ls_sflight TO et_entityset.
+      ENDLOOP.
+  endmethod.
